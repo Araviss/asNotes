@@ -18,8 +18,8 @@ public class Notes extends AppCompatActivity {
         String notesTitle = intent.getStringExtra(Intent.EXTRA_TITLE);
 
         TextView notesTitleTextView = (TextView) findViewById(R.id.notesTitleTextView);
-        EditText notepadEditText = (EditText) findViewById(R.id.notepadEditText);
         notesTitleTextView.setText(notesTitle);
+        EditText notepadEditText = (EditText) findViewById(R.id.notesTakenEditText);
 
 
 
