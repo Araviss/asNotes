@@ -12,15 +12,19 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class Notes extends AppCompatActivity {
     SharedPreferences setOfNotes;
     EditText notepadEditText;
-    ArrayList<String> notesList = new ArrayList<>(); //Array list created to hold ListView previews
-    Set<String> notesSet;
+    Set<String> notesSet = new LinkedHashSet<>();
+
+    String SET_KEY = "n";
     public static final String Notes = "notesKey";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +47,21 @@ public class Notes extends AppCompatActivity {
                     public void onClick(View v) { ///this is going to read set into an array add
                         String writtenNotes = notepadEditText.getText().toString();
                         SharedPreferences.Editor editor = setOfNotes.edit();
+                        JSONArray jsonArray; //= new JSONArray(notesSet);
 
-                        if(!notesList.isEmpty()){
-                            notesList.add(writtenNotes);
+                        if(!notesSet.isEmpty()){ //creating a JSONArray because it stores values as text and they are able to remain as ordered
+                            notesSet.add(writtenNotes);
+                            jsonArray =new JSONArray(notesSet);//convert set into JSON
+                            Set<String> s = setOfNotes.getString(SET_KEY);// get the set
 
-
-                            editor.putStringSet("n", notesSet);
+                            editor.putString(SET_KEY, jsonArray.toString());
                         }
                         else{
                             notesSet.add(writtenNotes);
-                            editor.putStringSet("n",notesSet);
+                            jsonArray = new JSONArray(notesSet);
+                            editor.putString(SET_KEY,jsonArray.toString());
                 }
+                        editor.commit();
               }
         });
 
@@ -61,4 +69,5 @@ public class Notes extends AppCompatActivity {
 
 
     }
+
 }
